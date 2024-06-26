@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:weartest/widgets/counter_cubit.dart';
 
 class CounterPage extends StatelessWidget {
@@ -29,25 +30,28 @@ class CounterViewState extends State<CounterView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Counter', style: Theme.of(context).textTheme.headlineSmall),
-
-            const SizedBox(
-              height: 5,
+            const Text(
+              'Counter',
+              style: TextStyle(fontSize: 15),
             ),
-
+            const SizedBox(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          WidgetStateProperty.all<Color>(Colors.black)),
                   onPressed: () {
-                    if (context.read<CounterCubit>().state <= 10 && context.read<CounterCubit>().state >= -10) {
+                    if (context.read<CounterCubit>().state < 10) {
                       context.read<CounterCubit>().increment();
-                    }
-                    else {
+                    } else {
                       mostrarTostada(context);
                     }
                   },
-                  child: const Icon(Icons.add),
+                  child: Icon(Icons.add),
                 ),
                 const SizedBox(width: 5),
                 BlocBuilder<CounterCubit, int>(
@@ -57,11 +61,13 @@ class CounterViewState extends State<CounterView> {
                 ),
                 const SizedBox(width: 5),
                 ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          WidgetStateProperty.all<Color>(Colors.black)),
                   onPressed: () {
-                    if (context.read<CounterCubit>().state <= 10 && context.read<CounterCubit>().state >= -10) {
+                    if (context.read<CounterCubit>().state > -10) {
                       context.read<CounterCubit>().decrement();
-                    }
-                    else {
+                    } else {
                       mostrarTostada(context);
                     }
                   },
@@ -69,16 +75,15 @@ class CounterViewState extends State<CounterView> {
                 ),
               ],
             ),
-
             const SizedBox(
               height: 5,
             ),
-
             ElevatedButton(
-              onPressed: () => context.read<CounterCubit>().reset(), 
-              child: const Text('Resetear counter')
-            )
-            
+                style: ButtonStyle(
+                    backgroundColor:
+                        WidgetStateProperty.all<Color>(Colors.black)),
+                onPressed: () => context.read<CounterCubit>().reset(),
+                child: const Text('Resetear'))
           ],
         ),
       ),
@@ -87,11 +92,14 @@ class CounterViewState extends State<CounterView> {
 }
 
 mostrarTostada(BuildContext context) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(
-      content: Text('Ya no puedes incrementar o decrementar el contador.'),
-      duration: Duration(seconds: 1),
-    ),
+  Fluttertoast.showToast(
+    msg: "Limite alcanzado",
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 1,
+    backgroundColor: Colors.black,
+    textColor: Colors.white,
+    fontSize: 16.0,
   );
 }
 
