@@ -1,5 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:wear/wear.dart';
+import 'package:weartest/widgets/counter_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,11 +29,15 @@ class WatchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WatchShape(builder: (context, shape, child) {
-      return AmbientMode(
-        builder: (context, mode, child) => Counter(mode),
-      );
-    });
+    return WatchShape(
+      builder: (context, shape, child) {
+        return AmbientMode(
+          builder: (context, mode, child) {
+            return const CounterPage();
+          },
+        );
+      },
+    );
   }
 }
 
@@ -47,21 +53,18 @@ class _CounterState extends State<Counter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor:
-            widget.mode == WearMode.active ? Colors.white : Colors.black,
-        body: const SafeArea(
-            child: Column(
+      backgroundColor: widget.mode == WearMode.active ? Colors.white : Colors.black,
+      body: const SafeArea(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             FlutterLogo(),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10,),
             Center(
-              child: Text("Hola Mundo Wear!!"),
+              child: Text('Hola mundo wear'),
             )
           ],
-        )
+        ),
       )
     );
   }
